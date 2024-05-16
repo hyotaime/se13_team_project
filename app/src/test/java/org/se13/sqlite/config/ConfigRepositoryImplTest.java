@@ -29,10 +29,8 @@ public class ConfigRepositoryImplTest {
 
     @Test
     @DisplayName("Config 테이블 생성 테스트")
-    @Order(1)// 테이블 생성 테스트만 우선적으로 실행
+    @Order(1) // 테이블 생성 테스트만 우선적으로 실행
     void createNewTableConfigTest() throws SQLException {
-        configRepository.createNewTableConfig();
-
         String url = "jdbc:sqlite:./tetris.db";
         try (Connection conn = DriverManager.getConnection(url);
              PreparedStatement pstmt = conn.prepareStatement("SELECT name FROM sqlite_master WHERE type='table' AND name='config'")) {
@@ -48,7 +46,6 @@ public class ConfigRepositoryImplTest {
     @DisplayName("설정 초기 값 테스트")
     @Order(2)
     void insertConfigTest() throws SQLException {
-        configRepository.createNewTableConfig();
         configRepository.insertDefaultConfig();
 
         JSONObject json = new JSONObject();
@@ -79,7 +76,6 @@ public class ConfigRepositoryImplTest {
     @DisplayName("설정 값 getter 테스트")
     @Order(3)
     void getConfigTest() {
-        configRepository.createNewTableConfig();
         configRepository.insertDefaultConfig();
 
         Map<String, Object> config = configRepository.getConfig();
@@ -101,7 +97,6 @@ public class ConfigRepositoryImplTest {
     @DisplayName("설정 update 테스트")
     @Order(4)
     void updateConfigTest() {
-        configRepository.createNewTableConfig();
         configRepository.insertDefaultConfig();
 
         configRepository.updateConfig(
@@ -133,7 +128,6 @@ public class ConfigRepositoryImplTest {
     @DisplayName("설정 값 삭제 테스트")
     @Order(5)
     void clearConfigTest() throws SQLException {
-        configRepository.createNewTableConfig();
         configRepository.insertDefaultConfig();
         configRepository.clearConfig();
         String url = "jdbc:sqlite:./tetris.db";
