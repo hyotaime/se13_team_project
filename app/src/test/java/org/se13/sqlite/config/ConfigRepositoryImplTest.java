@@ -48,8 +48,8 @@ public class ConfigRepositoryImplTest {
     @DisplayName("설정 초기 값 테스트")
     @Order(2)
     void insertConfigTest() throws SQLException {
-        // 객체 생성자에 insertConfig(0)이 포함되어 있다
         configRepository.createNewTableConfig();
+        configRepository.insertDefaultConfig();
 
         JSONObject json = new JSONObject();
         json.put("mode", "default");
@@ -80,6 +80,7 @@ public class ConfigRepositoryImplTest {
     @Order(3)
     void getConfigTest() {
         configRepository.createNewTableConfig();
+        configRepository.insertDefaultConfig();
 
         Map<String, Object> config = configRepository.getConfig();
         assertNotNull(config);
@@ -101,6 +102,7 @@ public class ConfigRepositoryImplTest {
     @Order(4)
     void updateConfigTest() {
         configRepository.createNewTableConfig();
+        configRepository.insertDefaultConfig();
 
         configRepository.updateConfig(
                 "test",
@@ -132,6 +134,7 @@ public class ConfigRepositoryImplTest {
     @Order(5)
     void clearConfigTest() throws SQLException {
         configRepository.createNewTableConfig();
+        configRepository.insertDefaultConfig();
         configRepository.clearConfig();
         String url = "jdbc:sqlite:./tetris.db";
         try (Connection conn = DriverManager.getConnection(url);

@@ -16,7 +16,6 @@ public class ConfigRepositoryImpl implements ConfigRepository {
 
         this.userId = userId;
         this.createNewTableConfig();
-        this.insertDefaultConfig();
     }
 
     // DB connection
@@ -36,7 +35,10 @@ public class ConfigRepositoryImpl implements ConfigRepository {
         //String dropSql = "DROP TABLE IF EXISTS config;";
 
         // JSON 형식의 설정 값
-        String sql = "CREATE TABLE IF NOT EXISTS config (id integer PRIMARY KEY CHECK (id = " + userId + "), settings text NOT NULL);";
+        String sql = "CREATE TABLE IF NOT EXISTS config ("
+                + "id integer PRIMARY KEY, "
+                + "settings text NOT NULL"
+                + ");";
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -68,7 +70,7 @@ public class ConfigRepositoryImpl implements ConfigRepository {
             pstmt.setString(2, json.toString());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error inserting default config: "+ e.getMessage());
+            System.out.println("Error inserting default config: " + e.getMessage());
         }
     }
 
@@ -145,7 +147,7 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     public int[] getScreenSize() {
         Map<String, Object> config = getConfig();
 
-        if (config == null){
+        if (config == null) {
             return new int[]{300, 400};
         }
 
@@ -159,7 +161,7 @@ public class ConfigRepositoryImpl implements ConfigRepository {
     public String getBlockColorMode() {
         Map<String, Object> config = getConfig();
 
-        if (config == null){
+        if (config == null) {
             return "default";
         }
 
